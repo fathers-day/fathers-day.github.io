@@ -8,28 +8,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header class="hero">
+    <nav class="mobile-nav">
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#qualities">Qualities</a>
+        </div>
+    </nav>
+
+    <header id="home" class="hero">
         <div class="hero-content">
-            <h1>Welcome My Father</h1>
-            <p>Scroll down to discover what makes you special</p>
+            <h1 class="animate-text">Welcome My Father</h1>
+            <p class="animate-text">Scroll down to discover what makes you special</p>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
         </div>
     </header>
 
     <main>
-        <section class="skills-section">
+        <section id="qualities" class="skills-section">
             <h2>Your Amazing Qualities</h2>
             <div class="skills-grid">
                 <a href="belief.html" class="skill-button belief">
+                    <i class="fas fa-heart"></i>
                     <span>Belief</span>
                 </a>
                 <a href="strength.html" class="skill-button strength">
+                    <i class="fas fa-dumbbell"></i>
                     <span>Strength</span>
                 </a>
                 <a href="love.html" class="skill-button love">
+                    <i class="fas fa-star"></i>
                     <span>Love</span>
                 </a>
             </div>
         </section>
+    </main>
+
+    <footer>
+        <p>Made with <i class="fas fa-heart"></i> for Father's Day</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>

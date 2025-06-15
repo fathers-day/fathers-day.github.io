@@ -1,58 +1,64 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const messageInput = document.getElementById('messageInput');
-    const submitButton = document.getElementById('submitMessage');
-    const messageDisplay = document.getElementById('messageDisplay');
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
 
-    // Array to store messages
-    let messages = [];
-
-    // Function to create a message element
-    const createMessageElement = (message) => {
-        const messageElement = document.createElement('div');
-        messageElement.className = 'message';
-        messageElement.innerHTML = `
-            <p>${message}</p>
-            <small>${new Date().toLocaleString()}</small>
-        `;
-        return messageElement;
-    };
-
-    // Function to display messages
-    const displayMessages = () => {
-        messageDisplay.innerHTML = '';
-        messages.forEach(message => {
-            messageDisplay.appendChild(createMessageElement(message));
-        });
-    };
-
-    // Handle message submission
-    submitButton.addEventListener('click', () => {
-        const message = messageInput.value.trim();
-        
-        if (message) {
-            messages.unshift(message); // Add new message to the beginning
-            messageInput.value = ''; // Clear input
-            displayMessages();
-            
-            // Add animation
-            const newMessage = messageDisplay.firstChild;
-            newMessage.style.opacity = '0';
-            newMessage.style.transform = 'translateY(-20px)';
-            
-            setTimeout(() => {
-                newMessage.style.opacity = '1';
-                newMessage.style.transform = 'translateY(0)';
-            }, 10);
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('active');
         }
     });
 
-    // Add some sample messages
-    const sampleMessages = [
-        "Thank you for always being there for me, Dad!",
-        "You're the best father anyone could ask for!",
-        "Happy Father's Day to all the amazing dads out there!"
-    ];
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                navLinks.classList.remove('active');
+            }
+        });
+    });
 
-    messages = sampleMessages;
-    displayMessages();
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements for fade-in
+    document.querySelectorAll('.skills-section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(section);
+    });
+
+    // Add fade-in class
+    document.head.insertAdjacentHTML('beforeend', `
+        <style>
+            .fade-in {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+        </style>
+    `);
 }); 
